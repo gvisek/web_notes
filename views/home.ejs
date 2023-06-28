@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDos</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+        <div class="navbar" id="navbar">
+            <h2>Add todo...</h2><br>
+            <form action="/add" method="post">
+                <select id="category" name="category">
+                    <option value="Work">Work</option>
+                    <option value="Movies and books">Movies and books</option>
+                    <option value="Fun">Fun</option>
+                    <option value="Sports">Sports</option>
+                  </select>
+                <input type="text" name="inputText" id="inputText" required>
+                <input type="submit" value="Add ToDo">
+            </form>
+        </div>
+        <div class="main" id="main">
+            <h2>My todos:</h2><br>
+            <% for(category of categories){ %>
+                <div class="card" id="card">
+                    <% let amount = categoryValues.find(x => x.id === category) || {id: category, value: 0} %>
+                    <div class="name" id="name"><%= category %> (<%= amount.value %>)</div>
+                    <% let item = todos.find(x=>x.category === category)  %>
+                    <% if(item){ %>
+                        <% let i = 1 %>
+                        <% for(object of item.value){ %>
+                        <div class="podsjetnik"><%=i++%>. <%= object.value %> <div class="date"><%= new Intl.DateTimeFormat().format(object.id) %> </div>
+                        <div class="remove"><a href="/remove/:<%= object.id+` `+object.value%>?categoryId=<%= amount.id %>">
+                            <button  >X</button>
+                        </a></div></div>
+                        <% } %>
+                    <% } %>
+                    
+                </div>
+            <% } %>
+        </div>
+        <div class="footerbar" id="footerbar">
+            My Todo count: <%= myTodo %>, all todo count: <%=numberOfTodo  %> 
+        </div>
+</body>
+</html>
